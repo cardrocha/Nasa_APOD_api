@@ -7,18 +7,20 @@ interface AtomData {
 
 const fecthingData = async () => {
   const data = await fetch(
-    "https://api.nasa.gov/planetary/apod?api_key=LHaM9u7qJHfPVtHq8oKxDyBIbPiBujMgzB0b2m39"
+    "https://api.nasa.gov/planetary/apod?api_key=LHaM9u7qJHfPVtHq8oKxDyBIbPiBujMgzB0b2m39",
+    { cache: "no-cache" }
   );
 
   return data.json()
 }
+
+const atom = await fecthingData()
 
 const HomeAtom =  async () => {
   function reverseString(str: string) {
     return str.split("-").reverse().join("/");
   }
 
-  const atom = await fecthingData()
   return (
     <div className="container mx-auto">
       <h1 className="text-rose-500 text-4xl p-1 mt-4 mb-7 font-semibold text-center">
