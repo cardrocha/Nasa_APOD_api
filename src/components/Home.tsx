@@ -1,9 +1,5 @@
-import Image from 'next/image';
-import React from 'react'
-
-interface AtomData {
-  data: string
-}
+import Image from "next/image";
+import React, { Suspense } from "react";
 
 const fecthingData = async () => {
   const data = await fetch(
@@ -11,12 +7,12 @@ const fecthingData = async () => {
     { cache: "no-cache" }
   );
 
-  return data.json()
-}
+  return data.json();
+};
 
-const atom = await fecthingData()
+const atom = await fecthingData();
 
-const HomeAtom =  async () => {
+const HomeAtom = async () => {
   function reverseString(str: string) {
     return str.split("-").reverse().join("/");
   }
@@ -30,16 +26,20 @@ const HomeAtom =  async () => {
         <h2 className="text-cyan-600 text-2xl mb-4">{atom.title}</h2>
         <div className="flex flex-col xl:flex-row">
           <div className="flex flex-col">
-            <Image
-              className="rounded-xl w-full p-1"
-              src={atom.url}
-              alt={atom.title}
-              width={500}
-              height={500}
-            />
-            <p className="text-sm text-center xl:text-right">{reverseString(atom.date)}</p>
+            <Suspense fallback={<p className="text-white text-lg text-center">Carregando...</p>}>
+              <Image
+                className="rounded-xl w-full p-1"
+                src={atom.url}
+                alt={atom.title}
+                width={500}
+                height={500}
+              />
+            </Suspense>
+            <p className="text-sm text-center xl:text-right">
+              {reverseString(atom.date)}
+            </p>
           </div>
-          <div className='flex flex-col'>
+          <div className="flex flex-col">
             <p className="flex items-center p-8 xl:w-[800px] text-lg">
               {atom.explanation}
             </p>
@@ -61,6 +61,6 @@ const HomeAtom =  async () => {
       </div>
     </div>
   );
-}
+};
 
-export default HomeAtom
+export default HomeAtom;
